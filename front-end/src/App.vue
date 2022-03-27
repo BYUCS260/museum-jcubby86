@@ -15,6 +15,7 @@
   </div>
   <div class="footer">
     <router-link to="/admin">Admin</router-link>
+    <a href="https://github.com/BYUCS260/museum-jcubby86">GitHub Repo</a>
   </div>
 </div>
 </template>
@@ -63,6 +64,7 @@ body {
 
 .footer a {
   color: #000;
+  margin-left: 20px;
 }
 
 h1 {

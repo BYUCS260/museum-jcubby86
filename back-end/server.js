@@ -30,6 +30,7 @@ const itemSchema = new mongoose.Schema({
 // Create a model for items in the museum.
 const Item = mongoose.model('Item', itemSchema);
 
+const fs = require('fs')
 
 // Upload a photo. Uses the multer middleware for the upload and then returns
 // the path where the photo is stored in the file system.
@@ -52,6 +53,50 @@ app.post('/api/items', async (req, res) => {
   try {
     await item.save();
     res.send(item);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+// Get a list of all of the items in the museum.
+app.get('/api/items', async (req, res) => {
+  try {
+    let items = await Item.find();
+    res.send(items);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+app.delete('/api/items/:id', async (req, res) => {
+  try {
+    let item = await Item.findOne({
+      _id: req.params.id
+    });
+    await Item.deleteOne(item);
+    const path = '../front-end/public' + item.path
+    fs.unlink(path, (err) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+    })
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+app.put('/api/items/:id', async (req, res) => {
+  try {
+    let item = await Item.findOne({
+      _id: req.params.id
+    });
+    item.title = req.body.title;
+    item.save()
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
