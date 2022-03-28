@@ -78,7 +78,7 @@
           this.items = response.data;
           return true;
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       },
     }

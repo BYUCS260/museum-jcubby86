@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost:27017/museum', {
 
 const multer = require('multer')
 const upload = multer({
-  dest: '../front-end/public/images/',
+  dest: '/var/www/museum.jmbastian.com/images/',
   limits: {
     fileSize: 10000000
   }
@@ -78,7 +78,7 @@ app.delete('/api/items/:id', async (req, res) => {
       _id: req.params.id
     });
     await Item.deleteOne(item);
-    const path = '../front-end/public' + item.path
+    const path = '/var/www/museum.jmbastian.com' + item.path
     fs.unlink(path, (err) => {
       if (err) {
         console.error(err)
